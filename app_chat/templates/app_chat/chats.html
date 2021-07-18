@@ -1,0 +1,40 @@
+{% extends "app_chat/basic.html" %}
+{% load i18n %}
+
+<title>{% block title %}{% trans "Chats" %}{% endblock %}</title>
+
+{% block content %}
+    <style>
+        .errorlist {
+            color: red;
+            list-style: none;
+            padding-left: 0;
+            font-weight: 600;
+        }
+    </style>
+    <h2>{% trans "Your chats" %}</h2>
+    {% if request.user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ find_friend.as_p }}
+            <button>Find</button>
+        </form>
+    {% endif %}
+    {% if user_chats %}
+        <ul>
+            {% for i_chat in user_chats %}
+                <li>
+                    <a href="{% url 'chat_with' i_chat.id %}">
+                        {% if i_chat.opponent.id == request.user.id %}
+                            Chat with {{ i_chat.owner }}
+                        {% else %}
+                            Chat with {{ i_chat.opponent }}
+                        {% endif %}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>{% trans "No chats" %}</p>
+    {% endif %}
+{% endblock %}

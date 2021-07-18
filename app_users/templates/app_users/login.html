@@ -1,0 +1,14 @@
+{% extends "app_chat/basic.html" %}
+{% load i18n %}
+
+<title>{% block title %}{% trans "Log in" %}{% endblock %}</title>
+
+
+{% block content %}
+    <h2>{% trans "Log in" %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">{% trans "Log in" %}</button>
+    </form>
+{% endblock %}

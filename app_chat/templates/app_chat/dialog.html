@@ -1,0 +1,48 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat with {{ recipient_user }}</title>
+
+    <style>
+        .i_message {
+            min-height: 30px;
+            border-top: 1px solid #C0C0C0;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        {% if request.user.is_authenticated %}
+            <h1> {% trans "Welcome," %} {{ request.user.username }}!</h1>
+            <a style="margin-right: 30px;" href="{% url 'chats_list' %}">{% trans "Your chats" %}</a>
+            <a style="margin-right: 30px;" href="{% url 'logout' %}">{% trans "Exit" %}</a>
+        {% else %}
+        {% endif %}
+    </header>
+    <h2>Chat with {{ recipient_user }}</h2>
+    {% for i_message in all_messages_with_opponent %}
+        <div class="i_message"
+            {% if i_message.sender == request.user %}
+                style="background: rgba(0, 191, 255, .2); "
+            {% else %}
+                style="background: rgba(128, 128, 128, .2);"
+            {% endif %}
+        >
+            <div style="display:flex; justify-content: space-between">
+                <div style="font-weight: 700">{{ i_message.sender }}</div>
+                <div style="color: rgba(0, 0, 0, .5)">{{ i_message.send_at }}</div>
+            </div>
+            <br>
+            - {{ i_message.text }}
+        </div>
+    {% endfor %}
+    <form method="post">
+        {% csrf_token %}
+        {{ new_message_form.as_p }}
+        <button type="submit">Send</button>
+    </form>
+</body>

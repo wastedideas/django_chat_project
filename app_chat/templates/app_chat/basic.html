@@ -1,0 +1,24 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+<header>
+    {% if request.user.is_authenticated %}
+        <h1> {% trans "Welcome," %} {{ request.user.username }}!</h1>
+        <a style="margin-right: 30px;" href="{% url 'chats_list' %}">{% trans "Your chats" %}</a>
+        <a style="margin-right: 30px;" href="{% url 'logout' %}">{% trans "Exit" %}</a>
+    {% else %}
+        <span>{% trans "For new message " %}</span>
+        <a href="{% url 'login' %}"> {% trans "Log in" %}</a>
+        <span>{% trans " or " %}</span>
+        <a href="{% url 'register' %}">{% trans "register" %}</a>
+    {% endif %}
+</header>
+{% block content %}
+{% endblock %}
+</body>
+</html>

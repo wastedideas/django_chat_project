@@ -3,7 +3,7 @@ from app_chat.views import chats_list_view, new_message_view, dialog_view
 
 urlpatterns = [
     path(
-        'chats_list/',
+        '',
         chats_list_view,
         name='chats_list',
     ),
